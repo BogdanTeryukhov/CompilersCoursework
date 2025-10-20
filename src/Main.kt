@@ -1,5 +1,4 @@
 import PatternParser.parsePattern
-import NonCrossPatternMatcher
 
 object PatternParser {
 
@@ -47,9 +46,11 @@ object PatternParser {
 fun main() {
 
     // регулярный шаблон
+    val regularPatternMatcher = RegularPatternMatcher()
     val regularPattern = parsePattern("x1 x2 as a x3")
     val word1 = "Vasya works as a developer"
-    val result1 = RegularPatternMatcher.matchRegularPattern(regularPattern, word1)
+
+    val result1 = regularPatternMatcher.match(regularPattern, word1)
     if (result1 != null) {
         println("Match found: $result1")
         val applied = PatternParser.applySubstitution(regularPattern, result1)
@@ -67,6 +68,20 @@ fun main() {
     if (result2 != null) {
         println("Match found: $result2")
         val applied = PatternParser.applySubstitution(nonCrossPattern, result2)
+        println("Origin word: $applied")
+    } else {
+        println("No match found")
+    }
+
+    // шаблон с ограниченной степенью совпадения областей
+    val pattern = parsePattern("x1 or x2 and x3 else if x1")
+    val word = "hello or world and piece else if hello"
+    val coincidenceMatcher = ScopeCoincidenceMatcher()
+
+    val result3 = coincidenceMatcher.match(pattern, word)
+    if (result3 != null) {
+        println("Match found: $result3")
+        val applied = PatternParser.applySubstitution(pattern, result3)
         println("Origin word: $applied")
     } else {
         println("No match found")

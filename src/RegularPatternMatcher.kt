@@ -1,4 +1,4 @@
-object RegularPatternMatcher {
+class RegularPatternMatcher {
 
     fun isRegular(pattern: Pattern): Boolean {
         val variableCount = mutableMapOf<String, Int>()
@@ -10,7 +10,7 @@ object RegularPatternMatcher {
         return variableCount.values.all { it == 1 }
     }
 
-    fun matchRegularPattern(pattern: Pattern, word: Word): Substitution? {
+    fun match(pattern: Pattern, word: Word): Substitution? {
         if (!isRegular(pattern)) {
             throw IllegalArgumentException("Pattern is not regular")
         }
