@@ -1,10 +1,17 @@
-class ScopeCoincidenceMatcher {
+class ScopeCoincidenceMatcher(private val maxSCD: Int) {
 
     fun match(
         pattern: Pattern,
         word: Word,
         substitution: MutableMap<String, String> = mutableMapOf()
     ): Substitution? {
+
+        val scd = calculateSCD(pattern)
+        if (scd > maxSCD) {
+            throw IllegalArgumentException(
+                "Pattern scd = $scd, but max value = $maxSCD"
+            )
+        }
 
         if (isSubstitutionComplete(pattern, substitution)) {
             return if (PatternParser.applySubstitution(pattern, substitution) == word) substitution else null
@@ -76,5 +83,34 @@ class ScopeCoincidenceMatcher {
         val result = PatternParser.applySubstitution(pattern, tempSub)
 
         return result.length >= candidate.length
+    }
+
+    private fun calculateSCD(pattern: Pattern): Int {
+        val variableRanges = mutableMapOf<String, IntRange>()
+
+        pattern.forEachIndexed { index, element ->
+            if (element is Variable) {
+                val currentScope = variableRanges[element.name]
+                if (currentScope == null) {
+                    variableRanges[element.name] = index..index
+                } else {
+                    variableRanges[element.name] = currentScope.first..index
+                }
+            }
+        }
+
+        var maxSCD = 0
+
+        for (i in pattern.indices) {
+            var count = 0
+            for (range in variableRanges.values) {
+                if (i in range) {
+                    count++
+                }
+            }
+            maxSCD = maxOf(maxSCD, count)
+        }
+
+        return maxSCD
     }
 }

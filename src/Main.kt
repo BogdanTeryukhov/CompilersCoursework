@@ -76,12 +76,26 @@ fun main() {
     // шаблон с ограниченной степенью совпадения областей
     val pattern = parsePattern("x1 or x2 and x3 else if x1")
     val word = "hello or world and piece else if hello"
-    val coincidenceMatcher = ScopeCoincidenceMatcher()
+    val coincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 2)
 
     val result3 = coincidenceMatcher.match(pattern, word)
     if (result3 != null) {
         println("Match found: $result3")
         val applied = PatternParser.applySubstitution(pattern, result3)
+        println("Origin word: $applied")
+    } else {
+        println("No match found")
+    }
+
+    // шаблоны с ограниченным числом повторяющихся переменных
+    val repeatedVarPattern = parsePattern("x1 or x2 and x3 else if x1 and x2")
+    val word3 = "truth or dare and shock else if truth and dare"
+    val repeatedVarMatcher = RepeatedVariablesMatcher(maxRepeatedVars = 2)
+
+    val result4 = repeatedVarMatcher.match(repeatedVarPattern, word3)
+    if (result4 != null) {
+        println("Match found: $result4")
+        val applied = PatternParser.applySubstitution(repeatedVarPattern, result4)
         println("Origin word: $applied")
     } else {
         println("No match found")
