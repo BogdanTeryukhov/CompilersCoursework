@@ -1,3 +1,7 @@
+package matchers
+
+import util.*
+
 class NonCrossPatternMatcher {
 
     data class PatternSegment(
@@ -9,7 +13,7 @@ class NonCrossPatternMatcher {
 
     fun match(pattern: Pattern, word: Word): Substitution? {
         if (!isNonCrossPattern(pattern)) {
-            throw IllegalArgumentException("Pattern is not non cross")
+            throw IllegalArgumentException("util.Pattern is not non cross")
         }
 
         val segments = parsePatternIntoSegments(pattern)

@@ -1,4 +1,13 @@
 import PatternParser.parsePattern
+import matchers.NonCrossPatternMatcher
+import matchers.RegularPatternMatcher
+import matchers.RepeatedVariablesMatcher
+import matchers.ScopeCoincidenceMatcher
+import util.Pattern
+import util.PatternElement
+import util.Substitution
+import util.Terminal
+import util.Variable
 
 object PatternParser {
 

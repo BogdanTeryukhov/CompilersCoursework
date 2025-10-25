@@ -1,3 +1,5 @@
+package util
+
 sealed class PatternElement
 data class Terminal(val symbol: Char) : PatternElement()
 data class Variable(val name: String) : PatternElement()
