@@ -1,3 +1,7 @@
+package matchers
+
+import util.*
+
 class ScopeCoincidenceMatcher(private val maxSCD: Int) {
 
     fun match(
@@ -9,7 +13,7 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) {
         val scd = calculateSCD(pattern)
         if (scd > maxSCD) {
             throw IllegalArgumentException(
-                "Pattern scd = $scd, but max value = $maxSCD"
+                "util.Pattern scd = $scd, but max value = $maxSCD"
             )
         }
 

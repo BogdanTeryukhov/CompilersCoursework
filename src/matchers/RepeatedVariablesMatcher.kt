@@ -1,3 +1,7 @@
+package matchers
+
+import util.*
+
 import PatternParser.applySubstitution
 
 class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) {
@@ -6,7 +10,7 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) {
         val repeatedCount = calculateRepeatedVariablesCount(pattern)
         if (repeatedCount > maxRepeatedVars) {
             throw IllegalArgumentException(
-                "Pattern contains $repeatedCount repeated variables, but max is $maxRepeatedVars"
+                "util.Pattern contains $repeatedCount repeated variables, but max is $maxRepeatedVars"
             )
         }
 

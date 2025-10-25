@@ -1,3 +1,7 @@
+package matchers
+
+import util.*
+
 class RegularPatternMatcher {
 
     fun isRegular(pattern: Pattern): Boolean {
@@ -12,7 +16,7 @@ class RegularPatternMatcher {
 
     fun match(pattern: Pattern, word: Word): Substitution? {
         if (!isRegular(pattern)) {
-            throw IllegalArgumentException("Pattern is not regular")
+            throw IllegalArgumentException("util.Pattern is not regular")
         }
 
         return matchRecursive(pattern, word, 0, 0, mutableMapOf())
