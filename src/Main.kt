@@ -1,8 +1,3 @@
-import PatternParser.parsePattern
-import matchers.NonCrossPatternMatcher
-import matchers.RegularPatternMatcher
-import matchers.RepeatedVariablesMatcher
-import matchers.ScopeCoincidenceMatcher
 import util.Pattern
 import util.PatternElement
 import util.Substitution
@@ -49,64 +44,5 @@ object PatternParser {
                 is Variable -> substitution[element.name] ?: "?"
             }
         }
-    }
-}
-
-fun main() {
-
-    // регулярный шаблон
-    val regularPatternMatcher = RegularPatternMatcher()
-    val regularPattern = parsePattern("x1 x2 as a x3")
-    val word1 = "Vasya works as a developer"
-
-    val result1 = regularPatternMatcher.match(regularPattern, word1)
-    if (result1 != null) {
-        println("Match found: $result1")
-        val applied = PatternParser.applySubstitution(regularPattern, result1)
-        println("Origin word: $applied")
-    } else {
-        println("No match found")
-    }
-
-    // непересекающийся шаблон
-    val nonCrossPatternMatcher = NonCrossPatternMatcher()
-    val nonCrossPattern = parsePattern("x1 and x1 and x1 or x2 or x2")
-    val word2 = "hel and hel and hel or nohel or nohel"
-
-    val result2= nonCrossPatternMatcher.match(nonCrossPattern, word2)
-    if (result2 != null) {
-        println("Match found: $result2")
-        val applied = PatternParser.applySubstitution(nonCrossPattern, result2)
-        println("Origin word: $applied")
-    } else {
-        println("No match found")
-    }
-
-    // шаблон с ограниченной степенью совпадения областей
-    val pattern = parsePattern("x1 or x2 and x3 else if x1")
-    val word = "hello or world and piece else if hello"
-    val coincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 2)
-
-    val result3 = coincidenceMatcher.match(pattern, word)
-    if (result3 != null) {
-        println("Match found: $result3")
-        val applied = PatternParser.applySubstitution(pattern, result3)
-        println("Origin word: $applied")
-    } else {
-        println("No match found")
-    }
-
-    // шаблоны с ограниченным числом повторяющихся переменных
-    val repeatedVarPattern = parsePattern("x1 or x2 and x3 else if x1 and x2")
-    val word3 = "truth or dare and shock else if truth and dare"
-    val repeatedVarMatcher = RepeatedVariablesMatcher(maxRepeatedVars = 2)
-
-    val result4 = repeatedVarMatcher.match(repeatedVarPattern, word3)
-    if (result4 != null) {
-        println("Match found: $result4")
-        val applied = PatternParser.applySubstitution(repeatedVarPattern, result4)
-        println("Origin word: $applied")
-    } else {
-        println("No match found")
     }
 }

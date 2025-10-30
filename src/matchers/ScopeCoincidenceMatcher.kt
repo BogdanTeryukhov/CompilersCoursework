@@ -89,7 +89,7 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) {
         return result.length >= candidate.length
     }
 
-    private fun calculateSCD(pattern: Pattern): Int {
+    fun calculateSCD(pattern: Pattern): Int {
         val variableRanges = mutableMapOf<String, IntRange>()
 
         pattern.forEachIndexed { index, element ->
