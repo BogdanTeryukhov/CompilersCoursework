@@ -47,7 +47,7 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) {
         return null
     }
 
-    private fun calculateRepeatedVariablesCount(pattern: Pattern): Int {
+    fun calculateRepeatedVariablesCount(pattern: Pattern): Int {
         val counts = mutableMapOf<String, Int>()
 
         pattern.forEach { element ->
