@@ -2,7 +2,7 @@ package matchers
 
 import util.*
 
-class NonCrossPatternMatcher {
+class NonCrossPatternMatcher : BasicMatcher {
 
     data class PatternSegment(
         val variables: List<VariableBlock> = emptyList(),
@@ -11,7 +11,8 @@ class NonCrossPatternMatcher {
 
     data class VariableBlock(val variable: String, val count: Int)
 
-    fun match(pattern: Pattern, word: Word): Substitution? {
+    @MeasureTime
+    override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
         if (!isNonCrossPattern(pattern)) {
             throw IllegalArgumentException("util.Pattern is not non cross")
         }

@@ -1,14 +1,17 @@
 package matchers
 
 import PatternParser.applySubstitution
+import util.BasicMatcher
+import util.MeasureTime
 import util.Pattern
 import util.Substitution
 import util.Variable
 import util.Word
 
-class NaivePatternMatcher {
+class NaivePatternMatcher : BasicMatcher {
 
-    fun match(pattern: Pattern, word: Word): Substitution? {
+    @MeasureTime
+    override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
         val variables = pattern.filterIsInstance<Variable>().map { it.name }.distinct()
         return naiveMatch(pattern, word, variables, mutableMapOf(), 0)
     }

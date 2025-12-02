@@ -1,14 +1,17 @@
 package matchers
 
 import PatternParser.applySubstitution
+import util.BasicMatcher
+import util.MeasureTime
 import util.Pattern
 import util.Substitution
 import util.Variable
 import util.Word
 
-class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) {
+class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher {
 
-    fun match(pattern: Pattern, word: Word): Substitution? {
+    @MeasureTime
+    override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
         val repeatedCount = calculateRepeatedVariablesCount(pattern)
 
         if (repeatedCount > maxRepeatedVars) {

@@ -2,12 +2,13 @@ package matchers
 
 import util.*
 
-class ScopeCoincidenceMatcher(private val maxSCD: Int) {
+class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher {
 
-    fun match(
+    @MeasureTime
+    override fun match(
         pattern: Pattern,
         word: Word,
-        substitution: MutableMap<String, String> = mutableMapOf()
+        substitution: MutableMap<String, String>
     ): Substitution? {
 
         val scd = calculateSCD(pattern)

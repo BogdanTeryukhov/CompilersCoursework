@@ -2,7 +2,7 @@ package matchers
 
 import util.*
 
-class RegularPatternMatcher {
+class RegularPatternMatcher : BasicMatcher {
 
     fun isRegular(pattern: Pattern): Boolean {
         val variableCount = mutableMapOf<String, Int>()
@@ -14,7 +14,8 @@ class RegularPatternMatcher {
         return variableCount.values.all { it == 1 }
     }
 
-    fun match(pattern: Pattern, word: Word): Substitution? {
+    @MeasureTime
+    override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
         if (!isRegular(pattern)) {
             throw IllegalArgumentException("util.Pattern is not regular")
         }
