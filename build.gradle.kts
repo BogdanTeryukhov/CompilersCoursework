@@ -7,11 +7,14 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://packages.jetbrains.team/maven/p/kds/kotlin-ds-maven")
 }
 
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation("junit:junit:4.13.2")
+    implementation("org.jetbrains.kotlinx:kandy-lets-plot:0.8.0")
+    implementation("org.jetbrains.kotlinx:kotlin-statistics-jvm:0.4.0")
 }
 
 tasks {

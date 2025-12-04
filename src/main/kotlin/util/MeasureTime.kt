@@ -6,13 +6,13 @@ annotation class MeasureTime
 
 class TimeMeasurer {
     companion object {
-        inline fun <T> measure(block: () -> T): T {
+        inline fun <T> measure(block: () -> T): Long {
             val startTime = System.currentTimeMillis()
             try {
-                return block()
+                block()
             } finally {
                 val endTime = System.currentTimeMillis()
-                println("Выполнено за ${endTime - startTime}ms")
+                return endTime - startTime
             }
         }
     }
