@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="matchers.NaivePatternMatcherTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-12-02T12:51:44.092Z" hostname="0000NBB0W2P1Q29" time="0.009">
+  <properties/>
+  <testcase name="testNoMatchDifferentContent" classname="matchers.NaivePatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchSingleRepeatedVariable" classname="matchers.NaivePatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchEmptyWordWithVariable" classname="matchers.NaivePatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchMultipleVariables" classname="matchers.NaivePatternMatcherTest" time="0.0"/>
+  <testcase name="testNoMatchDifferentPattern" classname="matchers.NaivePatternMatcherTest" time="0.001"/>
+  <testcase name="testMatchNoVariables" classname="matchers.NaivePatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchComplexPattern" classname="matchers.NaivePatternMatcherTest" time="0.007"/>
+  <testcase name="testMatchSingleVariable" classname="matchers.NaivePatternMatcherTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

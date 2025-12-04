@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="matchers.RegularPatternMatcherTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2025-12-02T12:51:44.011Z" hostname="0000NBB0W2P1Q29" time="0.006">
+  <properties/>
+  <testcase name="testIsRegularWithNonRegularPattern" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testNoMatchWhenWordTooLong" classname="matchers.RegularPatternMatcherTest" time="0.003"/>
+  <testcase name="testMatchPatternWithTerminalsOnly" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchPatternWithVariableAtStart" classname="matchers.RegularPatternMatcherTest" time="0.001"/>
+  <testcase name="testNoMatchWhenTerminalsDontMatch" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchSimplePattern" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testNoMatchWhenWordTooShort" classname="matchers.RegularPatternMatcherTest" time="0.001"/>
+  <testcase name="testMatchWithEmptyVariableValue" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testIsRegularWithRegularPattern" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testComplexRegularPattern" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchPatternWithVariableAtEnd" classname="matchers.RegularPatternMatcherTest" time="0.001"/>
+  <testcase name="testMatchPatternWithVariablesOnly" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <testcase name="testMatchPatternWithMultipleVariables" classname="matchers.RegularPatternMatcherTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
