@@ -7,8 +7,9 @@ import util.Pattern
 import util.Substitution
 import util.Variable
 import util.Word
+import util.WordPatternGenerator
 
-class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher {
+class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher, WordPatternGenerator {
 
     @MeasureTime
     override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
@@ -144,5 +145,25 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher 
         }
 
         return counts.values.count { it > 1 }
+    }
+
+    override fun generateWordAndPattern(
+        numOfVars: Int,
+        alphabet: String
+    ): Pair<String, String> {
+        val variablesList = listOf("x1 ", "x2 ", "x3 ")
+        val wordPrefix = listOf("TFL1 ", "TFL2 ", "TFL3 ")
+
+        val subword = (1..6).map { alphabet.random() }.joinToString("")
+
+        val pattern: StringBuilder = StringBuilder()
+        val word: StringBuilder = StringBuilder()
+
+        for (i in 1..numOfVars) {
+            val randomIndex = listOf(0, 1, 2).random()
+            pattern.append(variablesList[randomIndex] + subword + " ")
+            word.append(wordPrefix[randomIndex] + subword + " ")
+        }
+        return (word.toString() to pattern.toString())
     }
 }

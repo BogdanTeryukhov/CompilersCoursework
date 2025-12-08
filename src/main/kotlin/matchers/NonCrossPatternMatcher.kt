@@ -2,7 +2,7 @@ package matchers
 
 import util.*
 
-class NonCrossPatternMatcher : BasicMatcher {
+class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
 
     data class PatternSegment(
         val variables: List<VariableBlock> = emptyList(),
@@ -293,5 +293,24 @@ class NonCrossPatternMatcher : BasicMatcher {
         }
 
         return true
+    }
+
+    override fun generateWordAndPattern(
+        numOfVars: Int,
+        alphabet: String
+    ): Pair<String, String> {
+        val variablesList = listOf("x1 ", "x2 ", "x3 ", "x4 ", "x5 ", "x6 ")
+        val wordPrefix = listOf("TFL1 ", "TFL2 ", "TFL3 ", "TFL4 ", "TFL5 ", "TFL6 ")
+
+        val subword = (1..6).map { alphabet.random() }.joinToString("")
+
+        val pattern: StringBuilder = StringBuilder()
+        val word: StringBuilder = StringBuilder()
+
+        for (i in 1..numOfVars) {
+            pattern.append(variablesList[i - 1] + subword + " ")
+            word.append(wordPrefix[i - 1] + subword + " ")
+        }
+        return (word.toString() to pattern.toString())
     }
 }

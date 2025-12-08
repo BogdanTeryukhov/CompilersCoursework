@@ -7,6 +7,7 @@ import util.Pattern
 import util.Substitution
 import util.Variable
 import util.Word
+import util.WordPatternGenerator
 
 class NaivePatternMatcher : BasicMatcher {
 
