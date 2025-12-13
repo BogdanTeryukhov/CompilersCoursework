@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlinx:dataframe-arrow:0.15.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.kotlinx" artifactId="dataframe-arrow" version="0.15.0" baseVersion="0.15.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/dataframe-arrow/0.15.0/f529dbe0471685f585d37cb3b408773e1936f739/dataframe-arrow-0.15.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/dataframe-arrow/0.15.0/3c2f321f1dbaadc551ba0e228fcb8ab5aea21df0/dataframe-arrow-0.15.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

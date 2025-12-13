@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: ch.randelshofer:fastdoubleparser:2.0.1" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="ch.randelshofer" artifactId="fastdoubleparser" version="2.0.1" baseVersion="2.0.1" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.randelshofer/fastdoubleparser/2.0.1/ccf4a1c0441e7af5cf24c7b3a9766b2e2646bdea/fastdoubleparser-2.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

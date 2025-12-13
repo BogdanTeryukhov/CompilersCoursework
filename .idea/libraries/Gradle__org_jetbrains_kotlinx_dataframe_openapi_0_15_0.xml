@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlinx:dataframe-openapi:0.15.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.kotlinx" artifactId="dataframe-openapi" version="0.15.0" baseVersion="0.15.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/dataframe-openapi/0.15.0/5994679cf15b1ec526173f29200b21e6fe8dc0e5/dataframe-openapi-0.15.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/dataframe-openapi/0.15.0/ebe9b71a76474804cedb26894dbcf1cba8b39c8f/dataframe-openapi-0.15.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

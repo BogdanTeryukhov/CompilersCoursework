@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlinx:kandy-lets-plot:0.8.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.kotlinx" artifactId="kandy-lets-plot" version="0.8.0" baseVersion="0.8.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kandy-lets-plot/0.8.0/d6693cf870fec5e02244de6dec172dae2ec1bce4/kandy-lets-plot-0.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kandy-lets-plot/0.8.0/2dae5dcb3cf1ae7ca8ed768134df6d508c6596b9/kandy-lets-plot-0.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

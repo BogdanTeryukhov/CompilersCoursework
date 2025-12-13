@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.arrow:arrow-memory-unsafe:18.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.arrow" artifactId="arrow-memory-unsafe" version="18.1.0" baseVersion="18.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.arrow/arrow-memory-unsafe/18.1.0/8b48e832c98695bfd2b50ad0ed324e0d46099898/arrow-memory-unsafe-18.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

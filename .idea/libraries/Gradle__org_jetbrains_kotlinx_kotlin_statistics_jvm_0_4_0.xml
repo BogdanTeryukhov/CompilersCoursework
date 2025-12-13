@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlinx:kotlin-statistics-jvm:0.4.0" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlin-statistics-jvm/0.4.0/d6f025f47a249139bcc2be7a05677875e26185a/kotlin-statistics-jvm-0.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlin-statistics-jvm/0.4.0/9b2042019795a025d22e2c45b27892e551cdb39/kotlin-statistics-jvm-0.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
