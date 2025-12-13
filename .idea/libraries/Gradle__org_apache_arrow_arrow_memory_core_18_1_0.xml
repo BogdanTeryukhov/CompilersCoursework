@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.arrow:arrow-memory-core:18.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.arrow" artifactId="arrow-memory-core" version="18.1.0" baseVersion="18.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.arrow/arrow-memory-core/18.1.0/35f4853d512f06759759b40b53bac850867886f8/arrow-memory-core-18.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

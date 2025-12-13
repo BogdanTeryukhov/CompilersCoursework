@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlinx:kandy-api:0.8.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.kotlinx" artifactId="kandy-api" version="0.8.0" baseVersion="0.8.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kandy-api/0.8.0/9eeb96383345a1e9f8063aceb712fc25ff1ec9fb/kandy-api-0.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kandy-api/0.8.0/576de87ca45e2ac5ccd5d8b01a9f8f3cc6fba93/kandy-api-0.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

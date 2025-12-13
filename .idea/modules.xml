@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CompilersCoursework.iml" filepath="$PROJECT_DIR$/.idea/modules/CompilersCoursework.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CompilersCoursework.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CompilersCoursework.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CompilersCoursework.test.iml" filepath="$PROJECT_DIR$/.idea/modules/CompilersCoursework.test.iml" />
     </modules>

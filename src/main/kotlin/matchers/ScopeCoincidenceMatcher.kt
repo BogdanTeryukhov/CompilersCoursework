@@ -14,109 +14,93 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         val scd = calculateSCD(pattern)
         if (scd > maxSCD) {
             throw IllegalArgumentException(
-                "util.Pattern scd = $scd, but max value = $maxSCD"
+                "Pattern scd = $scd, but max value = $maxSCD"
             )
         }
 
-        if (isSubstitutionComplete(pattern, substitution)) {
-            return if (PatternParser.applySubstitution(pattern, substitution) == word) substitution else null
-        }
-
-        val nextVariable = findNextUnassignedVariable(pattern, substitution)
-        if (nextVariable == null) return null
-
-        val possibleValues = generatePossibleValues(pattern, nextVariable, word, substitution)
-
-        for (value in possibleValues) {
-            substitution[nextVariable] = value
-            val result = match(pattern, word, substitution)
-            if (result != null) return result
-            substitution.remove(nextVariable)
-        }
-
-        return null
+        return matchFrom(
+            pattern = pattern,
+            word = word,
+            pPos = 0,
+            wPos = 0,
+            substitution = substitution
+        )
     }
 
-    private fun isSubstitutionComplete(pattern: Pattern, substitution: Map<String, String>): Boolean {
-        val variablesInPattern = pattern.filterIsInstance<Variable>().map { it.name }.toSet()
-        return variablesInPattern.all { it in substitution }
-    }
-
-    private fun findNextUnassignedVariable(pattern: Pattern, substitution: Map<String, String>): String? {
-        return pattern.filterIsInstance<Variable>().map { it.name }.find { it !in substitution }
-    }
-
-    private fun generatePossibleValues(
+    private fun matchFrom(
         pattern: Pattern,
-        variable: String,
         word: Word,
-        substitution: Map<String, String>
-    ): List<String> {
-        val tempSub = substitution.toMutableMap()
-        val possibleValues = mutableListOf<String>()
+        pPos: Int,
+        wPos: Int,
+        substitution: MutableMap<String, String>
+    ): Substitution? {
 
-        val maxLength = word.length
+        if (pPos == pattern.size) {
+            return if (wPos == word.length) substitution else null
+        }
 
-        for (length in 1..maxLength) {
-            tempSub[variable] = "A".repeat(length) // заглушка для расчета длины
+        val el = pattern[pPos]
 
-            val result = PatternParser.applySubstitution(pattern, tempSub)
-            if (result.length > word.length) break
+        return when (el) {
+            is Terminal -> {
+                if (wPos < word.length && word[wPos] == el.symbol) {
+                    matchFrom(pattern, word, pPos + 1, wPos + 1, substitution)
+                } else null
+            }
 
-            for (start in 0..(word.length - length)) {
-                val candidate = word.substring(start, start + length)
+            is Variable -> {
+                val name = el.name
+                val current = substitution[name]
 
-                // проверяем, что candidate согласуется со всеми вхождениями переменной
-                if (isCandidateConsistent(pattern, variable, candidate, substitution)) {
-                    possibleValues.add(candidate)
+                if (current != null) {
+                    if (word.startsWith(current, wPos)) {
+                        matchFrom(
+                            pattern,
+                            word,
+                            pPos + 1,
+                            wPos + current.length,
+                            substitution
+                        )
+                    } else null
+                } else {
+                    for (len in 1..(word.length - wPos)) {
+                        val candidate = word.substring(wPos, wPos + len)
+                        substitution[name] = candidate
+                        val res = matchFrom(
+                            pattern,
+                            word,
+                            pPos + 1,
+                            wPos + len,
+                            substitution
+                        )
+                        if (res != null) return res
+                        substitution.remove(name)
+                    }
+                    null
                 }
             }
         }
-
-        return possibleValues.distinct()
-    }
-
-    private fun isCandidateConsistent(
-        pattern: Pattern,
-        variable: String,
-        candidate: String,
-        substitution: Map<String, String>
-    ): Boolean {
-        val tempSub = substitution.toMutableMap()
-        tempSub[variable] = candidate
-
-        val result = PatternParser.applySubstitution(pattern, tempSub)
-
-        return result.length >= candidate.length
     }
 
     fun calculateSCD(pattern: Pattern): Int {
-        val variableRanges = mutableMapOf<String, IntRange>()
+        val ranges = mutableMapOf<String, IntRange>()
 
-        pattern.forEachIndexed { index, element ->
-            if (element is Variable) {
-                val currentScope = variableRanges[element.name]
-                if (currentScope == null) {
-                    variableRanges[element.name] = index..index
-                } else {
-                    variableRanges[element.name] = currentScope.first..index
-                }
+        pattern.forEachIndexed { i, el ->
+            if (el is Variable) {
+                val r = ranges[el.name]
+                ranges[el.name] = if (r == null) i..i else r.first..i
             }
         }
 
-        var maxSCD = 0
-
+        var max = 0
         for (i in pattern.indices) {
-            var count = 0
-            for (range in variableRanges.values) {
-                if (i in range) {
-                    count++
-                }
+            var c = 0
+            for (r in ranges.values) {
+                if (i in r) c++
             }
-            maxSCD = maxOf(maxSCD, count)
+            max = maxOf(max, c)
         }
-
-        return maxSCD
+        return max
     }
 
     override fun generateWordAndPattern(
@@ -135,6 +119,6 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
             pattern.append(variablesList[i - 1] + subword + " ")
             word.append(wordPrefix[i - 1] + subword + " ")
         }
-        return (word.toString() to pattern.toString())
+        return word.toString().trim() to pattern.toString().trim()
     }
 }
