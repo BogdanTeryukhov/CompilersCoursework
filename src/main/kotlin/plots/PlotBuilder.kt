@@ -15,17 +15,18 @@ import util.WordPatternGenerator
 
 private val naiveMatcher = NaivePatternMatcher()
 private val regularMatcher = RegularPatternMatcher()
-private val repeatedVariablesMatcher = RepeatedVariablesMatcher(maxRepeatedVars = 3)
+private val repeatedVariablesMatcher = RepeatedVariablesMatcher(maxRepeatedVars = 100000)
 private val nonCrossPatternMatcher = NonCrossPatternMatcher()
 private val scopeCoincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 6)
 
-private val symbolLengths = listOf(10, 20, 30)
+
+private val maxSymbols = 100000
 
 fun buildPlots(symbolLengths: List<Int>, naiveMatcherResults: List<Long>, otherMatcherResults: List<Long>, matcherName: String) {
     val dataset = dataFrameOf(
         "symbolLengths" to symbolLengths + symbolLengths,
         "time" to naiveMatcherResults + otherMatcherResults,
-        "category" to List(3) { "Naive" } + List(3) { matcherName }
+        "category" to List(maxSymbols / 20) { "Naive" } + List(maxSymbols / 20) { matcherName }
     )
 
     dataset.groupBy("category").plot {
@@ -55,18 +56,18 @@ fun prePlotManipulations(matcher: BasicMatcher, generator: WordPatternGenerator,
     val naiveMatcherResults = mutableListOf<Long>()
     val otherMatcherResults = mutableListOf<Long>()
 
-    for (symbolLength in symbolLengths) {
+    for (symbolLength in 20..maxSymbols step 20) {
         val (value, naiveValue) = countedValues(symbolLength / 10, matcher, generator)
         otherMatcherResults.add(value)
         naiveMatcherResults.add(naiveValue)
     }
 
-    buildPlots(symbolLengths, naiveMatcherResults, otherMatcherResults, matcherName)
+    buildPlots((20..maxSymbols step 20).toList(), naiveMatcherResults, otherMatcherResults, matcherName)
 }
 
 fun main() {
-    prePlotManipulations(scopeCoincidenceMatcher, scopeCoincidenceMatcher, "ScopeCoincidence")
-    prePlotManipulations(regularMatcher, regularMatcher, "Regular")
-    prePlotManipulations(nonCrossPatternMatcher, nonCrossPatternMatcher, "NonCross")
+//    prePlotManipulations(regularMatcher, regularMatcher, "Regular")
+//    prePlotManipulations(scopeCoincidenceMatcher, scopeCoincidenceMatcher, "ScopeCoincidence")
+//    prePlotManipulations(nonCrossPatternMatcher, nonCrossPatternMatcher, "NonCross")
     prePlotManipulations(repeatedVariablesMatcher, repeatedVariablesMatcher, "RepeatedVariables")
 }
