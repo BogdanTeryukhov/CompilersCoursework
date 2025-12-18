@@ -3,6 +3,7 @@ package matchers
 import org.junit.Test
 import PatternParser.parsePattern
 import junit.framework.TestCase.*
+import PatternParser
 
 class RepeatedVariablesMatcherTest {
 

@@ -3,6 +3,7 @@ package matchers
 import PatternParser.parsePattern
 import org.junit.Test
 import org.junit.Assert.*
+import PatternParser
 
 class NaivePatternMatcherTest {
 

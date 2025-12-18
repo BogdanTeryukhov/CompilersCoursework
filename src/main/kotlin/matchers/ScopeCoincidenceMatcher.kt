@@ -4,37 +4,46 @@ import util.*
 
 class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatternGenerator {
 
+    fun calculateSCD(pattern: Pattern): Int {
+        val intervals = mutableMapOf<String, Pair<Int, Int>>()
+
+        for ((i, e) in pattern.withIndex()) {
+            if (e is Variable) {
+                val cur = intervals[e.name]
+                intervals[e.name] =
+                    if (cur == null) i to i
+                    else cur.first to i
+            }
+        }
+
+        var scd = 0
+        for (i in pattern.indices) {
+            val active = intervals.values.count { (l, r) -> i in l..r }
+            scd = maxOf(scd, active)
+        }
+        return scd
+    }
+
     @MeasureTime
     override fun match(
         pattern: Pattern,
         word: Word,
         substitution: MutableMap<String, String>
     ): Substitution? {
-
-        val scd = calculateSCD(pattern)
-        if (scd > maxSCD) {
-            throw IllegalArgumentException(
-                "Pattern scd = $scd, but max value = $maxSCD"
-            )
+        if (calculateSCD(pattern) > maxSCD) {
+            throw IllegalArgumentException("Pattern scd max value = $maxSCD")
         }
 
-        return matchFrom(
-            pattern = pattern,
-            word = word,
-            pPos = 0,
-            wPos = 0,
-            substitution = substitution
-        )
+        return matchFrom(pattern, word, substitution, 0, 0)
     }
 
     private fun matchFrom(
         pattern: Pattern,
         word: Word,
+        substitution: MutableMap<String, String>,
         pPos: Int,
-        wPos: Int,
-        substitution: MutableMap<String, String>
+        wPos: Int
     ): Substitution? {
-
         if (pPos == pattern.size) {
             return if (wPos == word.length) substitution else null
         }
@@ -44,36 +53,40 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         return when (el) {
             is Terminal -> {
                 if (wPos < word.length && word[wPos] == el.symbol) {
-                    matchFrom(pattern, word, pPos + 1, wPos + 1, substitution)
+                    matchFrom(pattern, word, substitution, pPos + 1, wPos + 1)
                 } else null
             }
-
             is Variable -> {
                 val name = el.name
                 val current = substitution[name]
-
                 if (current != null) {
                     if (word.startsWith(current, wPos)) {
                         matchFrom(
                             pattern,
                             word,
+                            substitution,
                             pPos + 1,
-                            wPos + current.length,
-                            substitution
+                            wPos + current.length
                         )
                     } else null
                 } else {
-                    for (len in 1..(word.length - wPos)) {
-                        val candidate = word.substring(wPos, wPos + len)
-                        substitution[name] = candidate
+                    val minRest = minimalRemainingLength(pattern, pPos + 1)
+                    val maxLen = word.length - wPos - minRest
+                    if (maxLen < 0) return null
+
+                    for (len in 1..maxLen) {
+                        val value = word.substring(wPos, wPos + len)
+                        substitution[name] = value
+
                         val res = matchFrom(
                             pattern,
                             word,
+                            substitution,
                             pPos + 1,
-                            wPos + len,
-                            substitution
+                            wPos + len
                         )
                         if (res != null) return res
+
                         substitution.remove(name)
                     }
                     null
@@ -82,43 +95,33 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         }
     }
 
-    fun calculateSCD(pattern: Pattern): Int {
-        val ranges = mutableMapOf<String, IntRange>()
-
-        pattern.forEachIndexed { i, el ->
-            if (el is Variable) {
-                val r = ranges[el.name]
-                ranges[el.name] = if (r == null) i..i else r.first..i
+    private fun minimalRemainingLength(
+        pattern: Pattern,
+        start: Int
+    ): Int {
+        var len = 0
+        for (i in start until pattern.size) {
+            when (pattern[i]) {
+                is Terminal -> len += 1
+                is Variable -> len += 1 // минимум 1 символ
             }
         }
-
-        var max = 0
-        for (i in pattern.indices) {
-            var c = 0
-            for (r in ranges.values) {
-                if (i in r) c++
-            }
-            max = maxOf(max, c)
-        }
-        return max
+        return len
     }
 
     override fun generateWordAndPattern(
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val variablesList = listOf("x1 ", "x2 ", "x3 ", "x4 ", "x5 ", "x6 ")
-        val wordPrefix = listOf("TFL1 ", "TFL2 ", "TFL3 ", "TFL4 ", "TFL5 ", "TFL6 ")
-
         val subword = (1..6).map { alphabet.random() }.joinToString("")
 
         val pattern: StringBuilder = StringBuilder()
         val word: StringBuilder = StringBuilder()
 
         for (i in 1..numOfVars) {
-            pattern.append(variablesList[i - 1] + subword + " ")
-            word.append(wordPrefix[i - 1] + subword + " ")
+            pattern.append("x$numOfVars $subword ")
+            word.append("TFL$numOfVars $subword ")
         }
-        return word.toString().trim() to pattern.toString().trim()
+        return (word.toString() to pattern.toString())
     }
 }

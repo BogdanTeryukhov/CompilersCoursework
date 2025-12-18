@@ -91,18 +91,14 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher,
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val variablesList = listOf("x1 ", "x2 ", "x3 ")
-        val wordPrefix = listOf("TFL1 ", "TFL2 ", "TFL3 ")
-
         val subword = (1..6).map { alphabet.random() }.joinToString("")
 
         val pattern: StringBuilder = StringBuilder()
         val word: StringBuilder = StringBuilder()
 
         for (i in 1..numOfVars) {
-            val randomIndex = listOf(0, 1, 2).random()
-            pattern.append(variablesList[randomIndex] + subword + " ")
-            word.append(wordPrefix[randomIndex] + subword + " ")
+            pattern.append("x$numOfVars $subword ")
+            word.append("TFL$numOfVars $subword ")
         }
         return (word.toString() to pattern.toString())
     }

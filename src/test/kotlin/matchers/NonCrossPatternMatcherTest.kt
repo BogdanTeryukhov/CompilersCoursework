@@ -3,6 +3,7 @@ package matchers
 import PatternParser.parsePattern
 import junit.framework.TestCase.*
 import org.junit.Test
+import PatternParser
 
 
 class NonCrossPatternMatcherTest {

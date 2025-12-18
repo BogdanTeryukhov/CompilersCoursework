@@ -4,294 +4,102 @@ import util.*
 
 class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
 
-    data class PatternSegment(
-        val variables: List<VariableBlock> = emptyList(),
-        val terminals: String = ""
-    )
-
-    data class VariableBlock(val variable: String, val count: Int)
-
     @MeasureTime
-    override fun match(pattern: Pattern, word: Word, substitution: MutableMap<String, String>): Substitution? {
-        if (!isNonCrossPattern(pattern)) {
-            throw IllegalArgumentException("util.Pattern is not non cross")
-        }
-
-        val segments = parsePatternIntoSegments(pattern)
-
-        return matchSegmentsRecursive(segments, word, 0, 0, mutableMapOf())
-    }
-
-    // парсит шаблон на сегменты [переменные][терминалы][переменные][терминалы]...
-    private fun parsePatternIntoSegments(pattern: Pattern): List<PatternSegment> {
-        val segments = mutableListOf<PatternSegment>()
-        var currentVariables = mutableListOf<VariableBlock>()
-        val currentTerminals = StringBuilder()
-
-        var i = 0
-        while (i < pattern.size) {
-            when (val element = pattern[i]) {
-                is Terminal -> {
-                    // если были переменные, сохраняем их как отдельный сегмент
-                    if (currentVariables.isNotEmpty()) {
-                        segments.add(PatternSegment(variables = currentVariables.toList()))
-                        currentVariables = mutableListOf()
-                    }
-                    currentTerminals.append(element.symbol)
-                    i++
-                }
-                is Variable -> {
-                    // если были терминалы, сохраняем их как отдельный сегмент
-                    if (currentTerminals.isNotEmpty()) {
-                        segments.add(PatternSegment(terminals = currentTerminals.toString()))
-                        currentTerminals.clear()
-                    }
-                    // cобираем блок одной переменной
-                    val variableName = element.name
-                    var count = 0
-                    var j = i
-                    while (j < pattern.size && pattern[j] is Variable &&
-                        (pattern[j] as Variable).name == variableName) {
-                        count++
-                        j++
-                    }
-                    currentVariables.add(VariableBlock(variableName, count))
-                    i = j
-                }
-            }
-        }
-
-        if (currentVariables.isNotEmpty()) {
-            segments.add(PatternSegment(variables = currentVariables.toList()))
-        }
-        if (currentTerminals.isNotEmpty()) {
-            segments.add(PatternSegment(terminals = currentTerminals.toString()))
-        }
-
-        return segments
-    }
-
-    private fun matchSegmentsRecursive(
-        segments: List<PatternSegment>,
+    override fun match(
+        pattern: Pattern,
         word: Word,
-        segmentIndex: Int,
-        wordPos: Int,
         substitution: MutableMap<String, String>
     ): Substitution? {
 
-        if (segmentIndex == segments.size) {
-            return if (wordPos == word.length) substitution else null
+        if (!isNonCrossPattern(pattern)) {
+            throw IllegalArgumentException("Pattern is not non-cross")
         }
 
-        val segment = segments[segmentIndex]
+        var pPos = 0
+        var wPos = 0
 
-        return if (segment.variables.isNotEmpty()) {
-            // cегмент с переменными
-            matchVariableSegment(segments, word, segmentIndex, wordPos, substitution, segment)
-        } else {
-            // cегмент с терминалами
-            matchTerminalSegment(segments, word, segmentIndex, wordPos, substitution, segment)
-        }
-    }
-
-    private fun matchVariableSegment(
-        segments: List<PatternSegment>,
-        word: Word,
-        segmentIndex: Int,
-        wordPos: Int,
-        substitution: MutableMap<String, String>,
-        segment: PatternSegment
-    ): Substitution? {
-
-        return matchVariablesInSegment(
-            segment.variables,
-            segments, word, segmentIndex, wordPos, substitution,
-            0, wordPos
-        )
-    }
-
-    private fun matchVariablesInSegment(
-        variables: List<VariableBlock>,
-        segments: List<PatternSegment>,
-        word: Word,
-        segmentIndex: Int,
-        initialWordPos: Int,
-        substitution: MutableMap<String, String>,
-        variableIndex: Int,
-        currentWordPos: Int
-    ): Substitution? {
-
-        if (variableIndex == variables.size) {
-            return matchSegmentsRecursive(segments, word, segmentIndex + 1, currentWordPos, substitution)
-        }
-
-        val block = variables[variableIndex]
-        val currentValue = substitution[block.variable]
-
-        return if (currentValue != null) {
-            matchExistingVariableInSegment(
-                variables, segments, word, segmentIndex, initialWordPos,
-                substitution, variableIndex, currentWordPos, block, currentValue
-            )
-        } else {
-            matchNewVariableInSegment(
-                variables, segments, word, segmentIndex, initialWordPos,
-                substitution, variableIndex, currentWordPos, block
-            )
-        }
-    }
-
-    private fun matchExistingVariableInSegment(
-        variables: List<VariableBlock>,
-        segments: List<PatternSegment>,
-        word: Word,
-        segmentIndex: Int,
-        initialWordPos: Int,
-        substitution: MutableMap<String, String>,
-        variableIndex: Int,
-        currentWordPos: Int,
-        block: VariableBlock,
-        currentValue: String
-    ): Substitution? {
-        val expectedSegment = currentValue.repeat(block.count)
-
-        if (currentWordPos + expectedSegment.length > word.length) {
-            return null
-        }
-
-        val actualSegment = word.substring(currentWordPos, currentWordPos + expectedSegment.length)
-        if (actualSegment != expectedSegment) {
-            return null
-        }
-
-        return matchVariablesInSegment(
-            variables, segments, word, segmentIndex, initialWordPos,
-            substitution, variableIndex + 1, currentWordPos + expectedSegment.length
-        )
-    }
-
-    private fun matchNewVariableInSegment(
-        variables: List<VariableBlock>,
-        segments: List<PatternSegment>,
-        word: Word,
-        segmentIndex: Int,
-        initialWordPos: Int,
-        substitution: MutableMap<String, String>,
-        variableIndex: Int,
-        currentWordPos: Int,
-        block: VariableBlock
-    ): Substitution? {
-        val maxLength = calculateMaxVariableLengthForSegment(
-            variables, segments, segmentIndex, variableIndex, word, currentWordPos
-        )
-
-        for (length in 1..maxLength) {
-            if (currentWordPos + (length * block.count) > word.length) break
-
-            val candidate = word.substring(currentWordPos, currentWordPos + length)
-
-            var valid = true
-            for (i in 1 until block.count) {
-                val segmentStart = currentWordPos + (i * length)
-                val segmentEnd = segmentStart + length
-                if (segmentEnd > word.length ||
-                    word.substring(segmentStart, segmentEnd) != candidate) {
-                    valid = false
-                    break
+        while (pPos < pattern.size) {
+            when (val el = pattern[pPos]) {
+                is Terminal -> {
+                    if (wPos >= word.length || word[wPos] != el.symbol) {
+                        return null
+                    }
+                    pPos++
+                    wPos++
                 }
-            }
+                is Variable -> {
+                    val name = el.name
+                    var count = 0
+                    var j = pPos
+                    while (j < pattern.size &&
+                        pattern[j] is Variable &&
+                        (pattern[j] as Variable).name == name
+                    ) {
+                        count++
+                        j++
+                    }
 
-            if (!valid) continue
+                    val existing = substitution[name]
 
-            substitution[block.variable] = candidate
-            val newWordPos = currentWordPos + (candidate.length * block.count)
+                    if (existing != null) {
+                        val expected = existing.repeat(count)
+                        if (!word.startsWith(expected, wPos)) return null
+                        wPos += expected.length
+                        pPos = j
+                        continue
+                    }
+                    val nextTerminal = if (j < pattern.size && pattern[j] is Terminal) {
+                        (pattern[j] as Terminal).symbol
+                    } else null
 
-            val result = matchVariablesInSegment(
-                variables, segments, word, segmentIndex, initialWordPos,
-                substitution, variableIndex + 1, newWordPos
-            )
+                    val valueLength = when (nextTerminal) {
+                        null -> {
+                            val remaining = word.length - wPos
+                            if (remaining % count != 0) return null
+                            remaining / count
+                        }
+                        else -> {
+                            val idx = word.indexOf(nextTerminal, wPos)
+                            if (idx == -1) return null
+                            val segmentLen = idx - wPos
+                            if (segmentLen % count != 0) return null
+                            segmentLen / count
+                        }
+                    }
 
-            if (result != null) {
-                return result
-            }
+                    val value = word.substring(wPos, wPos + valueLength)
 
-            substitution.remove(block.variable)
-        }
-        return null
-    }
+                    repeat(count) { i ->
+                        val start = wPos + i * valueLength
+                        val end = start + valueLength
+                        if (word.substring(start, end) != value) return null
+                    }
 
-    private fun matchTerminalSegment(
-        segments: List<PatternSegment>,
-        word: Word,
-        segmentIndex: Int,
-        wordPos: Int,
-        substitution: MutableMap<String, String>,
-        segment: PatternSegment
-    ): Substitution? {
-
-        val terminals = segment.terminals
-        if (wordPos + terminals.length > word.length) {
-            return null
-        }
-
-        val wordSegment = word.substring(wordPos, wordPos + terminals.length)
-        if (wordSegment != terminals) {
-            return null
-        }
-
-        return matchSegmentsRecursive(segments, word, segmentIndex + 1, wordPos + terminals.length, substitution)
-    }
-
-    private fun calculateMaxVariableLengthForSegment(
-        variables: List<VariableBlock>,
-        segments: List<PatternSegment>,
-        segmentIndex: Int,
-        variableIndex: Int,
-        word: Word,
-        currentWordPos: Int
-    ): Int {
-        var remainingLength = 0
-
-        for (i in variableIndex until variables.size) {
-            remainingLength += variables[i].count // мин1 символ на вхождение
-        }
-
-        for (i in segmentIndex + 1 until segments.size) {
-            val segment = segments[i]
-            if (segment.terminals.isNotEmpty()) {
-                remainingLength += segment.terminals.length
-            } else {
-                for (block in segment.variables) {
-                    remainingLength += block.count // мин 1 символ на вхождение
+                    substitution[name] = value
+                    wPos += valueLength * count
+                    pPos = j
                 }
             }
         }
 
-        val availableLength = word.length - currentWordPos - remainingLength
-        return availableLength.coerceAtLeast(1)
+        return if (wPos == word.length) substitution else null
     }
 
     fun isNonCrossPattern(pattern: Pattern): Boolean {
         val scopes = mutableMapOf<String, IntRange>()
 
-        pattern.forEachIndexed { index, element ->
-            if (element is Variable) {
-                val currentScope = scopes[element.name]
-                if (currentScope == null) {
-                    scopes[element.name] = index..index
-                } else {
-                    scopes[element.name] = currentScope.first..index
-                }
+        pattern.forEachIndexed { idx, el ->
+            if (el is Variable) {
+                scopes[el.name] = scopes[el.name]?.let {
+                    it.first..idx
+                } ?: (idx..idx)
             }
         }
 
-        val sortedScopes = scopes.values.sortedBy { it.first }
-        for (i in 1 until sortedScopes.size) {
-            if (sortedScopes[i - 1].last >= sortedScopes[i].first) {
-                return false
-            }
+        val sorted = scopes.values.sortedBy { it.first }
+        for (i in 1 until sorted.size) {
+            if (sorted[i - 1].last >= sorted[i].first) return false
         }
-
         return true
     }
 
@@ -299,17 +107,14 @@ class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val variablesList = listOf("x1 ", "x2 ", "x3 ", "x4 ", "x5 ", "x6 ")
-        val wordPrefix = listOf("TFL1 ", "TFL2 ", "TFL3 ", "TFL4 ", "TFL5 ", "TFL6 ")
-
         val subword = (1..6).map { alphabet.random() }.joinToString("")
 
         val pattern: StringBuilder = StringBuilder()
         val word: StringBuilder = StringBuilder()
 
         for (i in 1..numOfVars) {
-            pattern.append(variablesList[i - 1] + subword + " ")
-            word.append(wordPrefix[i - 1] + subword + " ")
+            pattern.append("x$numOfVars $subword ")
+            word.append("TFL$numOfVars $subword ")
         }
         return (word.toString() to pattern.toString())
     }
