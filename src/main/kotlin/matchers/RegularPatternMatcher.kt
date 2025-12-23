@@ -1,6 +1,13 @@
 package matchers
 
-import util.*
+import util.BasicMatcher
+import util.MeasureTime
+import util.Pattern
+import util.Substitution
+import util.Terminal
+import util.Variable
+import util.Word
+import util.WordPatternGenerator
 
 class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
 
@@ -25,50 +32,54 @@ class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
             throw IllegalArgumentException("Pattern is not regular")
         }
 
-        var pPos = 0
-        var wPos = 0
+        val variables = mutableListOf<String>()
+        val terminals = mutableListOf<String>()
 
-        while (pPos < pattern.size) {
-            val el = pattern[pPos]
-
+        val current = StringBuilder()
+        for (el in pattern) {
             when (el) {
-                is Terminal -> {
-                    if (wPos >= word.length || word[wPos] != el.symbol) {
-                        return null
-                    }
-                    pPos++
-                    wPos++
-                }
+                is Terminal -> current.append(el.symbol)
                 is Variable -> {
-                    val name = el.name
-
-                    val next = if (pPos + 1 < pattern.size) {
-                        pattern[pPos + 1]
-                    } else null
-
-                    val endPos = when (next) {
-                        is Terminal -> {
-                            word.indexOf(next.symbol, wPos).also {
-                                if (it == -1) return null
-                            }
-                        }
-                        is Variable -> {
-                            if (wPos >= word.length) return null
-                            wPos + 1
-                        }
-                        else -> word.length
-                    }
-
-                    val value = word.substring(wPos, endPos)
-                    substitution[name] = value
-
-                    wPos = endPos
-                    pPos++
+                    terminals.add(current.toString())
+                    current.clear()
+                    variables.add(el.name)
                 }
             }
         }
+        terminals.add(current.toString())
 
-        return if (wPos == word.length) substitution else null
+        if (variables.isEmpty()) {
+            return if (terminals[0] == word) substitution else null
+        }
+
+        if (!word.startsWith(terminals[0])) return null
+        var pos = terminals[0].length
+
+        val suffix = terminals.last()
+        if (!word.endsWith(suffix)) return null
+
+        for (i in 0 until variables.size - 1) {
+            val nextTerminal = terminals[i + 1]
+
+            val endPos = if (nextTerminal.isNotEmpty()) {
+                val idx = word.indexOf(nextTerminal, pos)
+                if (idx == -1) return null
+                idx
+            } else {
+                if (pos >= word.length) return null
+                pos + 1
+            }
+
+            substitution[variables[i]] = word.substring(pos, endPos)
+            pos = endPos + nextTerminal.length
+        }
+
+        val lastVar = variables.last()
+        val endPos = word.length - suffix.length
+        if (endPos < pos) return null
+
+        substitution[lastVar] = word.substring(pos, endPos)
+        return substitution
     }
 
     override fun generateWordAndPattern(

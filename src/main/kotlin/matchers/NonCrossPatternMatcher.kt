@@ -15,76 +15,128 @@ class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
             throw IllegalArgumentException("Pattern is not non-cross")
         }
 
-        var pPos = 0
-        var wPos = 0
-
-        while (pPos < pattern.size) {
-            when (val el = pattern[pPos]) {
-                is Terminal -> {
-                    if (wPos >= word.length || word[wPos] != el.symbol) {
-                        return null
-                    }
-                    pPos++
-                    wPos++
-                }
-                is Variable -> {
-                    val name = el.name
-                    var count = 0
-                    var j = pPos
-                    while (j < pattern.size &&
-                        pattern[j] is Variable &&
-                        (pattern[j] as Variable).name == name
-                    ) {
-                        count++
-                        j++
-                    }
-
-                    val existing = substitution[name]
-
-                    if (existing != null) {
-                        val expected = existing.repeat(count)
-                        if (!word.startsWith(expected, wPos)) return null
-                        wPos += expected.length
-                        pPos = j
-                        continue
-                    }
-                    val nextTerminal = if (j < pattern.size && pattern[j] is Terminal) {
-                        (pattern[j] as Terminal).symbol
-                    } else null
-
-                    val valueLength = when (nextTerminal) {
-                        null -> {
-                            val remaining = word.length - wPos
-                            if (remaining % count != 0) return null
-                            remaining / count
-                        }
-                        else -> {
-                            val idx = word.indexOf(nextTerminal, wPos)
-                            if (idx == -1) return null
-                            val segmentLen = idx - wPos
-                            if (segmentLen % count != 0) return null
-                            segmentLen / count
-                        }
-                    }
-
-                    val value = word.substring(wPos, wPos + valueLength)
-
-                    repeat(count) { i ->
-                        val start = wPos + i * valueLength
-                        val end = start + valueLength
-                        if (word.substring(start, end) != value) return null
-                    }
-
-                    substitution[name] = value
-                    wPos += valueLength * count
-                    pPos = j
-                }
-            }
-        }
-
-        return if (wPos == word.length) substitution else null
+        return matchFrom(pattern, word, substitution, 0, 0)
     }
 
+    private fun matchFrom(
+        pattern: Pattern,
+        word: Word,
+        substitution: MutableMap<String, String>,
+        pPos: Int,
+        wPos: Int
+    ): Substitution? {
+
+        if (pPos == pattern.size) {
+            return if (wPos == word.length) substitution else null
+        }
+
+        val el = pattern[pPos]
+
+        return when (el) {
+            is Terminal -> {
+                if (wPos < word.length && word[wPos] == el.symbol) {
+                    matchFrom(pattern, word, substitution, pPos + 1, wPos + 1)
+                } else null
+            }
+
+            is Variable -> {
+                val name = el.name
+                var count = 0
+                var j = pPos
+                while (j < pattern.size &&
+                    pattern[j] is Variable &&
+                    (pattern[j] as Variable).name == name
+                ) {
+                    count++
+                    j++
+                }
+
+                val existing = substitution[name]
+                if (existing != null) {
+                    val expectedLen = existing.length * count
+                    if (wPos + expectedLen > word.length) return null
+
+                    val expected = existing.repeat(count)
+                    if (!word.startsWith(expected, wPos)) return null
+
+                    return matchFrom(
+                        pattern,
+                        word,
+                        substitution,
+                        j,
+                        wPos + expectedLen
+                    )
+                }
+
+                val maxLen = maxPossibleLength(
+                    pattern,
+                    word,
+                    j,
+                    wPos,
+                    count
+                )
+
+                // перебор длины ℓ
+                for (len in 0..maxLen) {
+                    val segmentLen = len * count
+                    if (wPos + segmentLen > word.length) break
+
+                    val value = word.substring(wPos, wPos + len)
+
+                    var ok = true
+                    for (i in 1 until count) {
+                        val start = wPos + i * len
+                        val end = start + len
+                        if (word.substring(start, end) != value) {
+                            ok = false
+                            break
+                        }
+                    }
+                    if (!ok) continue
+
+                    substitution[name] = value
+                    val res = matchFrom(
+                        pattern,
+                        word,
+                        substitution,
+                        j,
+                        wPos + segmentLen
+                    )
+                    if (res != null) return res
+                    substitution.remove(name)
+                }
+                null
+            }
+        }
+    }
+
+    /**
+     * Максимально допустимая длина значения переменной,
+     * чтобы оставшаяся часть шаблона могла быть сопоставлена.
+     */
+    private fun maxPossibleLength(
+        pattern: Pattern,
+        word: Word,
+        pPos: Int,
+        wPos: Int,
+        count: Int
+    ): Int {
+        var minRemaining = 0
+        for (i in pPos until pattern.size) {
+            minRemaining += when (pattern[i]) {
+                is Terminal -> 1
+                is Variable -> 1
+            }
+        }
+        val available = word.length - wPos - minRemaining
+        return if (available >= 0) available / count else -1
+    }
+
+    /**
+     * Проверка непересекающегося.
+     * В таком шаблоне области видимости переменных не пересекаются,
+     * поэтому в каждый момент времени активна не более одной переменной.
+     */
     fun isNonCrossPattern(pattern: Pattern): Boolean {
         val scopes = mutableMapOf<String, IntRange>()
 

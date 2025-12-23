@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.lets-plot/lets-plot-kotlin-jvm/4.9.2/ff046ebffdc13e77a82676b07ebb15af83d1f29d/plot-api-jvm-4.9.2.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.lets-plot/lets-plot-kotlin-jvm/4.9.2/3793a53432a8852149f70707ca11efa75d20cb61/lets-plot-kotlin-jvm-4.9.2-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
