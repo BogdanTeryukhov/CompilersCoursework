@@ -32,6 +32,15 @@ class ScopeCoincidenceMatcherTest {
     }
 
     @Test
+    fun testCalculateSCDWithComplexOverlap() {
+        val matcher = ScopeCoincidenceMatcher(3)
+        val pattern = parsePattern("x1 x2 x3 x1 x2 x1")
+        val scd = matcher.calculateSCD(pattern)
+        assertEquals(3, scd)
+    }
+
+
+    @Test
     fun testMatchSimplePatternWithSCD1() {
         val matcher = ScopeCoincidenceMatcher(1)
         val pattern = parsePattern("x1x1x1")
@@ -166,14 +175,6 @@ class ScopeCoincidenceMatcherTest {
 
         val applied = PatternParser.applySubstitution(pattern, result!!)
         assertEquals(word, applied)
-    }
-
-    @Test
-    fun testCalculateSCDWithComplexOverlap() {
-        val matcher = ScopeCoincidenceMatcher(3)
-        val pattern = parsePattern("x1 x2 x3 x1 x2 x1")
-        val scd = matcher.calculateSCD(pattern)
-        assertEquals(3, scd)
     }
 
     @Test

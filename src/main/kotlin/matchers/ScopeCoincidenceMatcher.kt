@@ -2,11 +2,18 @@ package matchers
 
 import util.*
 
-class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatternGenerator {
+class ScopeCoincidenceMatcher(
+    private val maxSCD: Int
+) : BasicMatcher, WordPatternGenerator {
+
+    private lateinit var firstPos: Map<String, Int>
+    private lateinit var lastPos: Map<String, Int>
 
     fun calculateSCD(pattern: Pattern): Int {
-        val activeSets = computeActiveSets(pattern)
-        return activeSets.maxOf { it.size }
+        computeScopes(pattern)
+        return pattern.indices.maxOf { pos ->
+            staticActiveAt(pos)
+        }
     }
 
     @MeasureTime
@@ -16,22 +23,23 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         substitution: MutableMap<String, String>
     ): Substitution? {
 
-        val activeSets = computeActiveSets(pattern)
-
-        if (activeSets.any { it.size > maxSCD }) {
+        val scd = calculateSCD(pattern)
+        if (scd > maxSCD) {
             throw IllegalArgumentException(
-                "Pattern SCD exceeds limit $maxSCD"
+                "Pattern SCD = $scd exceeds limit $maxSCD"
             )
         }
 
-        return matchFrom(pattern, word, substitution, activeSets, 0, 0)
+        return matchFrom(
+            pattern, word, substitution,
+            pPos = 0, wPos = 0
+        )
     }
 
     private fun matchFrom(
         pattern: Pattern,
         word: Word,
         substitution: MutableMap<String, String>,
-        activeSets: List<Set<String>>,
         pPos: Int,
         wPos: Int
     ): Substitution? {
@@ -39,31 +47,35 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
             return if (wPos == word.length) substitution else null
         }
 
-        val el = pattern[pPos]
+        if (dynamicActiveCount(substitution, pPos) > maxSCD) {
+            return null
+        }
 
-        return when (el) {
+        return when (val el = pattern[pPos]) {
+
             is Terminal -> {
                 if (wPos < word.length && word[wPos] == el.symbol) {
                     matchFrom(
                         pattern, word, substitution,
-                        activeSets,
                         pPos + 1, wPos + 1
                     )
                 } else null
             }
             is Variable -> {
                 val name = el.name
-                val current = substitution[name]
-                if (current != null) {
-                    if (word.startsWith(current, wPos)) {
+                val assigned = substitution[name]
+
+                if (assigned != null) {
+                    if (word.startsWith(assigned, wPos)) {
                         matchFrom(
                             pattern, word, substitution,
-                            activeSets,
-                            pPos + 1, wPos + current.length
+                            pPos + 1, wPos + assigned.length
                         )
                     } else null
                 } else {
-                    val minRest = minimalRemainingLength(pattern, pPos + 1, substitution)
+                    val minRest = minimalRemainingLength(
+                        pattern, pPos + 1, substitution
+                    )
                     val maxLen = word.length - wPos - minRest
                     if (maxLen < 0) return null
 
@@ -72,12 +84,8 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
                         substitution[name] = value
 
                         val res = matchFrom(
-                            pattern,
-                            word,
-                            substitution,
-                            activeSets,
-                            pPos + 1,
-                            wPos + len
+                            pattern, word, substitution,
+                            pPos + 1, wPos + len
                         )
                         if (res != null) return res
 
@@ -89,25 +97,7 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         }
     }
 
-    private fun minimalRemainingLength(
-        pattern: Pattern,
-        start: Int,
-        substitution: Map<String, String>
-    ): Int {
-        var len = 0
-        for (i in start until pattern.size) {
-            when (val e = pattern[i]) {
-                is Terminal -> len += 1
-                is Variable -> substitution[e.name]?.let { len += it.length }
-            }
-        }
-        return len
-    }
-
-    private fun computeActiveSets(
-        pattern: Pattern
-    ): List<Set<String>> {
-
+    private fun computeScopes(pattern: Pattern) {
         val first = mutableMapOf<String, Int>()
         val last = mutableMapOf<String, Int>()
 
@@ -118,11 +108,35 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
             }
         }
 
-        return pattern.indices.map { i ->
-            first.keys.filter { v ->
-                i in first[v]!!..last[v]!!
-            }.toSet()
+        firstPos = first
+        lastPos = last
+    }
+
+    private fun staticActiveAt(pos: Int): Int =
+        firstPos.count { (v, l) -> pos in l..lastPos[v]!! }
+
+    private fun dynamicActiveCount(
+        substitution: Map<String, String>,
+        pPos: Int
+    ): Int =
+        substitution.keys.count { v ->
+            pPos <= lastPos[v]!!
         }
+
+    private fun minimalRemainingLength(
+        pattern: Pattern,
+        start: Int,
+        substitution: Map<String, String>
+    ): Int {
+        var len = 0
+        for (i in start until pattern.size) {
+            when (val e = pattern[i]) {
+                is Terminal -> len += 1
+                is Variable ->
+                    len += substitution[e.name]?.length ?: 0
+            }
+        }
+        return len
     }
 
     override fun generateWordAndPattern(
@@ -135,13 +149,8 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
 
         repeat(numOfVars) {
             pattern.append("x1 x2 ")
+            word.append("a b")
         }
-        pattern.append("a")
-
-        repeat(numOfVars * 2) {
-            word.append("a ")
-        }
-        word.append("b")
 
         return word.toString().trim() to pattern.toString().trim()
     }
