@@ -1,7 +1,13 @@
-package matchers
+package matchers.Repv
 
-import util.*
-
+import util.BasicMatcher
+import util.MeasureTime
+import util.Pattern
+import util.Substitution
+import util.Terminal
+import util.Variable
+import util.Word
+import util.WordPatternGenerator
 
 class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher, WordPatternGenerator {
 
@@ -58,27 +64,37 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher,
         vars: List<String>,
         lens: IntArray
     ): Substitution? {
-        val sub = mutableMapOf<String, String>()
-        var p = 0
+
+        val hash = RollingHash(word)
+        val assigned = mutableMapOf<String, Pair<Long, Int>>()
+        val result = mutableMapOf<String, String>()
+
+        var pos = 0
         for (e in pattern) {
             when (e) {
                 is Terminal -> {
-                    if (p >= word.length || word[p] != e.symbol) return null
-                    p++
+                    if (pos >= word.length || word[pos] != e.symbol) return null
+                    pos++
                 }
                 is Variable -> {
                     val i = vars.indexOf(e.name)
-                    val l = lens[i]
-                    if (p + l > word.length) return null
-                    val s = word.substring(p, p + l)
-                    val prev = sub[e.name]
-                    if (prev == null) sub[e.name] = s
-                    else if (prev != s) return null
-                    p += l
+                    val len = lens[i]
+                    if (pos + len > word.length) return null
+
+                    val h = hash.getHash(pos, pos + len)
+
+                    val prev = assigned[e.name]
+                    if (prev == null) {
+                        assigned[e.name] = h to len
+                        result[e.name] = word.substring(pos, pos + len)
+                    } else {
+                        if (prev.first != h || prev.second != len) return null
+                    }
+                    pos += len
                 }
             }
         }
-        return if (p == word.length) sub else null
+        return if (pos == word.length) result else null
     }
 
     private fun countVars(pattern: Pattern): Map<String, Int> {

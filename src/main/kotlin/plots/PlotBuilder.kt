@@ -2,7 +2,7 @@ import PatternParser.parsePattern
 import matchers.NaivePatternMatcher
 import matchers.NonCrossPatternMatcher
 import matchers.RegularPatternMatcher
-import matchers.RepeatedVariablesMatcher
+import matchers.Repv.RepeatedVariablesMatcher
 import matchers.ScopeCoincidenceMatcher
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 import org.jetbrains.kotlinx.dataframe.api.groupBy
@@ -20,7 +20,7 @@ private val nonCrossPatternMatcher = NonCrossPatternMatcher()
 private val scopeCoincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 6)
 
 
-private val maxSymbols = 100000
+private val maxSymbols = 1000
 
 fun buildPlots(symbolLengths: List<Int>, naiveMatcherResults: List<Long>, otherMatcherResults: List<Long>, matcherName: String) {
     val dataset = dataFrameOf(
@@ -67,7 +67,7 @@ fun prePlotManipulations(matcher: BasicMatcher, generator: WordPatternGenerator,
 
 fun main() {
 //    prePlotManipulations(regularMatcher, regularMatcher, "Regular")
-//    prePlotManipulations(scopeCoincidenceMatcher, scopeCoincidenceMatcher, "ScopeCoincidence")
+    prePlotManipulations(scopeCoincidenceMatcher, scopeCoincidenceMatcher, "ScopeCoincidence")
 //    prePlotManipulations(nonCrossPatternMatcher, nonCrossPatternMatcher, "NonCross")
-    prePlotManipulations(repeatedVariablesMatcher, repeatedVariablesMatcher, "RepeatedVariables")
+//    prePlotManipulations(repeatedVariablesMatcher, repeatedVariablesMatcher, "RepeatedVariables")
 }

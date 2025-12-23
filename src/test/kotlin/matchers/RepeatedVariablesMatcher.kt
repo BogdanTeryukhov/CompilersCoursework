@@ -4,6 +4,7 @@ import org.junit.Test
 import PatternParser.parsePattern
 import junit.framework.TestCase.*
 import PatternParser
+import matchers.Repv.RepeatedVariablesMatcher
 
 class RepeatedVariablesMatcherTest {
 

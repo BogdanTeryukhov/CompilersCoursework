@@ -4,6 +4,7 @@ import PatternParser.parsePattern
 import junit.framework.TestCase.*
 import org.junit.Test
 import PatternParser
+import matchers.RegularPatternMatcher
 
 class RegularPatternMatcherTest {
 

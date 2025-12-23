@@ -113,15 +113,16 @@ class ScopeCoincidenceMatcher(private val maxSCD: Int) : BasicMatcher, WordPatte
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val subword = (1..6).map { alphabet.random() }.joinToString("")
 
-        val pattern: StringBuilder = StringBuilder()
-        val word: StringBuilder = StringBuilder()
+        // всегда 3 активные переменные
+        val pattern = StringBuilder()
+        val word = StringBuilder()
 
-        for (i in 1..numOfVars) {
-            pattern.append("x$numOfVars $subword ")
-            word.append("TFL$numOfVars $subword ")
+        repeat(numOfVars) {
+            pattern.append("x1 x2 x3 ")
+            word.append("a b c")
         }
-        return (word.toString() to pattern.toString())
+
+        return word.toString() to pattern.toString()
     }
 }
