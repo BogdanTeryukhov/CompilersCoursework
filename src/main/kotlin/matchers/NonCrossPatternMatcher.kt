@@ -76,7 +76,6 @@ class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
                     count
                 )
 
-                // перебор длины ℓ
                 for (len in 0..maxLen) {
                     val segmentLen = len * count
                     if (wPos + segmentLen > word.length) break

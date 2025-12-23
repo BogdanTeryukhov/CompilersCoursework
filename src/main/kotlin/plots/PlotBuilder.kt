@@ -17,10 +17,10 @@ private val naiveMatcher = NaivePatternMatcher()
 private val regularMatcher = RegularPatternMatcher()
 private val repeatedVariablesMatcher = RepeatedVariablesMatcher(maxRepeatedVars = 100000)
 private val nonCrossPatternMatcher = NonCrossPatternMatcher()
-private val scopeCoincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 6)
+private val scopeCoincidenceMatcher = ScopeCoincidenceMatcher(maxSCD = 4)
 
 
-private val maxSymbols = 1000
+private val maxSymbols = 10000
 
 fun buildPlots(symbolLengths: List<Int>, naiveMatcherResults: List<Long>, otherMatcherResults: List<Long>, matcherName: String) {
     val dataset = dataFrameOf(
@@ -66,8 +66,8 @@ fun prePlotManipulations(matcher: BasicMatcher, generator: WordPatternGenerator,
 }
 
 fun main() {
-//    prePlotManipulations(regularMatcher, regularMatcher, "Regular")
+    prePlotManipulations(regularMatcher, regularMatcher, "Regular")
     prePlotManipulations(scopeCoincidenceMatcher, scopeCoincidenceMatcher, "ScopeCoincidence")
-//    prePlotManipulations(nonCrossPatternMatcher, nonCrossPatternMatcher, "NonCross")
-//    prePlotManipulations(repeatedVariablesMatcher, repeatedVariablesMatcher, "RepeatedVariables")
+    prePlotManipulations(nonCrossPatternMatcher, nonCrossPatternMatcher, "NonCross")
+    prePlotManipulations(repeatedVariablesMatcher, repeatedVariablesMatcher, "RepeatedVariables")
 }
