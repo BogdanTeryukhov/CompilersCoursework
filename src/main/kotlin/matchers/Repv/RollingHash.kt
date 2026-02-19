@@ -1,10 +1,11 @@
 package matchers.Repv
 
+// позволяет вычислять хеш любой подстроки за O(1) времени
 class RollingHash(s: String) {
-    private val mod = 1_000_000_007L
-    private val base = 911382323L
+    private val mod = 1_000_000_007L // большое простое число
+    private val base = 911382323L // основание полинома
 
-    private val prefix = LongArray(s.length + 1)
+    private val prefix = LongArray(s.length + 1) // prefix [i] - хеш префикса строки s длины i
     private val power = LongArray(s.length + 1)
 
     init {

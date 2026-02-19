@@ -55,10 +55,7 @@ class ScopeCoincidenceMatcher(
 
             is Terminal -> {
                 if (wPos < word.length && word[wPos] == el.symbol) {
-                    matchFrom(
-                        pattern, word, substitution,
-                        pPos + 1, wPos + 1
-                    )
+                    matchFrom(pattern, word, substitution, pPos + 1, wPos + 1)
                 } else null
             }
             is Variable -> {
@@ -67,15 +64,10 @@ class ScopeCoincidenceMatcher(
 
                 if (assigned != null) {
                     if (word.startsWith(assigned, wPos)) {
-                        matchFrom(
-                            pattern, word, substitution,
-                            pPos + 1, wPos + assigned.length
-                        )
+                        matchFrom(pattern, word, substitution, pPos + 1, wPos + assigned.length)
                     } else null
                 } else {
-                    val minRest = minimalRemainingLength(
-                        pattern, pPos + 1, substitution
-                    )
+                    val minRest = minimalRemainingLength(pattern, pPos + 1, substitution)
                     val maxLen = word.length - wPos - minRest
                     if (maxLen < 0) return null
 
@@ -97,6 +89,7 @@ class ScopeCoincidenceMatcher(
         }
     }
 
+    // вычисление областей переменных
     private fun computeScopes(pattern: Pattern) {
         val first = mutableMapOf<String, Int>()
         val last = mutableMapOf<String, Int>()
@@ -112,9 +105,11 @@ class ScopeCoincidenceMatcher(
         lastPos = last
     }
 
+    // сколько переменных могут быть активны в позиции pos на основе структуры шаблона
     private fun staticActiveAt(pos: Int): Int =
         firstPos.count { (v, l) -> pos in l..lastPos[v]!! }
 
+    // сколько уже назначенных переменных всё ещё активны в текущей позиции pPos
     private fun dynamicActiveCount(
         substitution: Map<String, String>,
         pPos: Int
@@ -123,6 +118,7 @@ class ScopeCoincidenceMatcher(
             pPos <= lastPos[v]!!
         }
 
+    // минимальная длина, которую займет остаток шаблона
     private fun minimalRemainingLength(
         pattern: Pattern,
         start: Int,
@@ -139,6 +135,7 @@ class ScopeCoincidenceMatcher(
         return len
     }
 
+    // паттерн вида x1 x2 x1 x2, слово вида a ba b
     override fun generateWordAndPattern(
         numOfVars: Int,
         alphabet: String

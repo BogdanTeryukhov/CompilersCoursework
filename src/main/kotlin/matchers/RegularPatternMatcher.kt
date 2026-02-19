@@ -35,7 +35,7 @@ class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
         val variables = mutableListOf<String>()
         val terminals = mutableListOf<String>()
 
-        val current = StringBuilder()
+        val current = StringBuilder() // накопитель для текущего терминала
         for (el in pattern) {
             when (el) {
                 is Terminal -> current.append(el.symbol)
@@ -48,16 +48,20 @@ class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
         }
         terminals.add(current.toString())
 
+        // если шаблон только из терминалов
         if (variables.isEmpty()) {
             return if (terminals[0] == word) substitution else null
         }
 
+        // слово должно начинаться с первого терминала
         if (!word.startsWith(terminals[0])) return null
         var pos = terminals[0].length
 
+        // слово должно заканчиваться последним терминалом
         val suffix = terminals.last()
         if (!word.endsWith(suffix)) return null
 
+        // все переменные кроме последней
         for (i in 0 until variables.size - 1) {
             val nextTerminal = terminals[i + 1]
 
@@ -74,6 +78,7 @@ class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
             pos = endPos + nextTerminal.length
         }
 
+        // последняя переменная
         val lastVar = variables.last()
         val endPos = word.length - suffix.length
         if (endPos < pos) return null
@@ -82,19 +87,23 @@ class RegularPatternMatcher : BasicMatcher, WordPatternGenerator {
         return substitution
     }
 
+    // паттерн вида x1x2x3x4, слово вида aaaaaaaaaaaa
     override fun generateWordAndPattern(
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val subword = (1..6).map { alphabet.random() }.joinToString("")
 
-        val pattern: StringBuilder = StringBuilder()
-        val word: StringBuilder = StringBuilder()
+        val pattern = StringBuilder()
+        val word = StringBuilder()
 
         for (i in 1..numOfVars) {
-            pattern.append("x$i $subword ")
-            word.append("TFL$i $subword ")
+            pattern.append("x$i")
         }
-        return (word.toString() to pattern.toString())
+
+        repeat(numOfVars * 3) {
+            word.append("a")
+        }
+
+        return word.toString() to pattern.toString()
     }
 }

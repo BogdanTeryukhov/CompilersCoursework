@@ -4,24 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e3a0a79-1c12-49ae-9718-674cb7a08f18" name="Changes" comment="Добавил рпз">
+    <list default="true" id="7e3a0a79-1c12-49ae-9718-674cb7a08f18" name="Changes" comment="фиксы scd">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/PlotBuilderKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/PlotBuilderKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NaivePatternMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NaivePatternMatcher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NonCrossPatternMatcher$isNonCrossPattern$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NonCrossPatternMatcher$isNonCrossPattern$$inlined$sortedBy$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NonCrossPatternMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/NonCrossPatternMatcher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/RegularPatternMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/RegularPatternMatcher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/RepeatedVariablesMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/Repv/RepeatedVariablesMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/Repv/RepeatedVariablesMatcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/Repv/RollingHash.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/Repv/RollingHash.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/ScopeCoincidenceMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/matchers/ScopeCoincidenceMatcher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/test/matchers/RegularPatternMatcherTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/test/matchers/RegularPatternMatcherTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/test/matchers/RepeatedVariablesMatcherTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/test/matchers/RepeatedVariablesMatcherTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len" afterDir="false" />
@@ -112,29 +114,23 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.len" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/caches-jvm/lookups/lookups.tab_i" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/cacheable/last-build.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileTestKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/libs/CompilersCoursework-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/CompilersCoursework-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/matchers.NonCrossPatternMatcherTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/matchers.NonCrossPatternMatcherTest.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/matchers.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/matchers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/test-results/test/TEST-matchers.NonCrossPatternMatcherTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-matchers.NonCrossPatternMatcherTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lets-plot-images/Naive_NonCross_results.png" beforeDir="false" afterPath="$PROJECT_DIR$/lets-plot-images/Naive_NonCross_results.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lets-plot-images/Naive_Regular_results.png" beforeDir="false" afterPath="$PROJECT_DIR$/lets-plot-images/Naive_Regular_results.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lets-plot-images/Naive_RepeatedVariables_results.png" beforeDir="false" afterPath="$PROJECT_DIR$/lets-plot-images/Naive_RepeatedVariables_results.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lets-plot-images/Naive_ScopeCoincidence_results.png" beforeDir="false" afterPath="$PROJECT_DIR$/lets-plot-images/Naive_ScopeCoincidence_results.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/NaivePatternMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/NaivePatternMatcher.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/NonCrossPatternMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/NonCrossPatternMatcher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/RegularPatternMatcher.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/RepeatedVariablesMatcher.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/RegularPatternMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/RegularPatternMatcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RepeatedVariablesMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RepeatedVariablesMatcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RollingHash.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RollingHash.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/matchers/ScopeCoincidenceMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/matchers/ScopeCoincidenceMatcher.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/plots/PlotBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/plots/PlotBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/matchers/RegularPatternMatcherTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/matchers/RegularPatternMatcherTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/matchers/RepeatedVariablesMatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/matchers/RepeatedVariablesMatcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/BasedClasses.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/BasedClasses.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +186,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/fix-matchers-and-test-generators" />
+        <entry key="$PROJECT_DIR$" value="feature/fix-scd" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -236,11 +232,16 @@
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Load Gradle Dependencies.executor": "Run",
     "Gradle.NaivePatternMatcherTest.executor": "Run",
+    "Gradle.NaivePatternMatcherTest.testMatchSingleRepeatedVariable.executor": "Debug",
     "Gradle.NonCrossPatternMatcherTest.executor": "Run",
+    "Gradle.NonCrossPatternMatcherTest.testBasicRepeatedVariables.executor": "Debug",
     "Gradle.RegularPatternMatcherTest.executor": "Run",
+    "Gradle.RegularPatternMatcherTest.testMatchSimplePattern.executor": "Debug",
     "Gradle.RepeatedVariablesMatcherTest.executor": "Run",
+    "Gradle.RepeatedVariablesMatcherTest.testCalculateRepeatedVariablesCountWithNoRepeats.executor": "Debug",
     "Gradle.RepeatedVariablesMatcherTest.testMatchComplexRepeatedPattern.executor": "Run",
     "Gradle.RepeatedVariablesMatcherTest.testMatchSingleRepeatedVariableLongValue.executor": "Run",
+    "Gradle.RepeatedVariablesMatcherTest.testMatchTwoRepeatedVariables.executor": "Debug",
     "Gradle.RepeatedVariablesMatcherTest.testMatchWithDifferentLengthRepeats.executor": "Debug",
     "Gradle.RepeatedVariablesMatcherTest.testMatchWithMaxRepeatedVarsZero.executor": "Run",
     "Gradle.ScopeCoincidenceMatcherTest.executor": "Run",
@@ -270,7 +271,7 @@
     "Kotlin.MainKt.executor": "Run",
     "Kotlin.PlotBuilderKt (1).executor": "Run",
     "Kotlin.PlotBuilderKt (2).executor": "Run",
-    "Kotlin.PlotBuilderKt.executor": "Run",
+    "Kotlin.PlotBuilderKt.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -278,14 +279,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/add-rpz",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/terjuhovba/intellij_projects/CompilersCoursework",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.37356323",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
@@ -306,14 +307,14 @@
       <recent name="$PROJECT_DIR$/src/main/resources/report" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
-      <recent name="matchers.Repv" />
       <recent name="matchers" />
+      <recent name="matchers.Repv" />
       <recent name="util" />
       <recent name="matchers.matchers" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.AllMatchersTestSuite">
-    <configuration name="AllMatchersTestSuite" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.RepeatedVariablesMatcherTest.testMatchTwoRepeatedVariables">
+    <configuration name="RegularPatternMatcherTest.testMatchSimplePattern" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -326,55 +327,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;matchers.AllMatchersTestSuite&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="NonCrossPatternMatcherTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;matchers.NonCrossPatternMatcherTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="RegularPatternMatcherTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;matchers.RegularPatternMatcherTest&quot;" />
+            <option value="&quot;matchers.RegularPatternMatcherTest.testMatchSimplePattern&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -409,6 +362,54 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="RepeatedVariablesMatcherTest.testCalculateRepeatedVariablesCountWithNoRepeats" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;matchers.RepeatedVariablesMatcherTest.testCalculateRepeatedVariablesCountWithNoRepeats&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="RepeatedVariablesMatcherTest.testMatchTwoRepeatedVariables" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;matchers.RepeatedVariablesMatcherTest.testMatchTwoRepeatedVariables&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="PlotBuilderKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PlotBuilderKt" />
       <module name="CompilersCoursework.main" />
@@ -424,11 +425,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AllMatchersTestSuite" />
+        <item itemvalue="Gradle.RepeatedVariablesMatcherTest.testMatchTwoRepeatedVariables" />
+        <item itemvalue="Gradle.RegularPatternMatcherTest.testMatchSimplePattern" />
         <item itemvalue="Kotlin.PlotBuilderKt" />
-        <item itemvalue="Gradle.RegularPatternMatcherTest" />
-        <item itemvalue="Gradle.NonCrossPatternMatcherTest" />
         <item itemvalue="Gradle.RepeatedVariablesMatcherTest" />
+        <item itemvalue="Gradle.RepeatedVariablesMatcherTest.testCalculateRepeatedVariablesCountWithNoRepeats" />
       </list>
     </recent_temporary>
   </component>
@@ -465,7 +466,8 @@
       <workItem from="1765280481126" duration="670000" />
       <workItem from="1765287167716" duration="21043000" />
       <workItem from="1765896850331" duration="10000" />
-      <workItem from="1765897375622" duration="26789000" />
+      <workItem from="1765897375622" duration="33734000" />
+      <workItem from="1770381840813" duration="28629000" />
     </task>
     <task id="LOCAL-00001" summary="Обработка непересекающихся шаблонов">
       <option name="closed" value="true" />
@@ -579,7 +581,39 @@
       <option name="project" value="LOCAL" />
       <updated>1766149013094</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="фиксы">
+      <option name="closed" value="true" />
+      <created>1766494258669</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1766494258669</updated>
+    </task>
+    <task id="LOCAL-00016" summary="фиксы">
+      <option name="closed" value="true" />
+      <created>1766494270020</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1766494270020</updated>
+    </task>
+    <task id="LOCAL-00017" summary="фиксы scd">
+      <option name="closed" value="true" />
+      <created>1766504864520</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1766504864520</updated>
+    </task>
+    <task id="LOCAL-00018" summary="фиксы scd">
+      <option name="closed" value="true" />
+      <created>1766505502866</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1766505502866</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -611,25 +645,37 @@
     <MESSAGE value="чуть поменял реализацию repv и scd" />
     <MESSAGE value="Поменял реализацию наивного и немного остальных матчеров, поменял генерацию тестовых данных" />
     <MESSAGE value="Добавил рпз" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил рпз" />
+    <MESSAGE value="фиксы" />
+    <MESSAGE value="фиксы scd" />
+    <option name="LAST_COMMIT_MESSAGE" value="фиксы scd" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/NaivePatternMatcher.kt</url>
-          <line>9</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/test/kotlin/matchers/RepeatedVariablesMatcher.kt</url>
           <line>148</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/ScopeCoincidenceMatcher.kt</url>
-          <line>125</line>
-          <option name="timeStamp" value="11" />
+          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/NonCrossPatternMatcher.kt</url>
+          <line>102</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/RegularPatternMatcher.kt</url>
+          <line>64</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RepeatedVariablesMatcher.kt</url>
+          <line>42</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/matchers/Repv/RepeatedVariablesMatcher.kt</url>
+          <line>57</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

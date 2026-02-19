@@ -33,20 +33,20 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher,
         val repeated = counts.filter { it.value > 1 }.keys
         if (repeated.size > maxRepeatedVars) return null
 
-        val vars = counts.keys.toList()
-        val occ = vars.map { counts[it]!! }
-        val terminals = pattern.count { it is Terminal }
+        val vars = counts.keys.toList() // переменные
+        val occ = vars.map { counts[it]!! } // сколько раз встретилась каждая
+        val terminals = pattern.count { it is Terminal } // сколько терминалов
 
-        val lens = IntArray(vars.size)
+        val lens = IntArray(vars.size) // длины значений для каждой переменной (изначально 0)
 
-        fun bt(i: Int, rest: Int): Substitution? {
+        fun bt(i: Int, rest: Int): Substitution? { // i - индекс текущей переменной, rest - сколько символов осталось распределить
             if (i == vars.size) {
-                if (rest != 0) return null
+                if (rest != 0) return null // если не все символы распределены
                 return check(pattern, word, vars, lens)
             }
-            val c = occ[i]
+            val c = occ[i] // сколько раз встречается переменная vars[i]
             var l = 0
-            while (c * l <= rest) {
+            while (c * l <= rest) { // количество вхождений * длина <= оставшихся символов
                 lens[i] = l
                 val r = bt(i + 1, rest - c * l)
                 if (r != null) return r
@@ -103,19 +103,26 @@ class RepeatedVariablesMatcher(private val maxRepeatedVars: Int) : BasicMatcher,
         return m
     }
 
+    // паттерн вида x1 a x1 a x1 a x1 a x1 a x1 a x1 a x1 a x1 a x1 a b, слово вида aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa c
     override fun generateWordAndPattern(
         numOfVars: Int,
         alphabet: String
     ): Pair<String, String> {
-        val subword = (1..6).map { alphabet.random() }.joinToString("")
 
-        val pattern: StringBuilder = StringBuilder()
-        val word: StringBuilder = StringBuilder()
+        val repetitions = numOfVars * 5
+        val xValue = "a".repeat(numOfVars)
 
-        for (i in 1..numOfVars) {
-            pattern.append("x$numOfVars $subword ")
-            word.append("TFL$numOfVars $subword ")
+        val pattern = StringBuilder()
+        val word = StringBuilder()
+
+        repeat(repetitions) {
+            pattern.append("x1 a ")
+            word.append(xValue).append("a ")
         }
-        return (word.toString() to pattern.toString())
+
+        pattern.append("b")
+        word.append("c")
+
+        return word.toString().trim() to pattern.toString().trim()
     }
 }
