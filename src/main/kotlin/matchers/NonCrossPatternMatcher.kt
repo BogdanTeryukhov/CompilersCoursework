@@ -151,7 +151,7 @@ class NonCrossPatternMatcher : BasicMatcher, WordPatternGenerator {
                     // расширяем диапазон до текущей позиции
                     scopes[el.name] = currentScope.first..idx
                 } else {
-                    // переменная встречается ВПЕРВЫЕ
+                    // переменная встречается впервые
                     // создаем диапазон из одной позиции
                     scopes[el.name] = idx..idx
                 }
